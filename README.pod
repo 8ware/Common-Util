@@ -1,0 +1,58 @@
+=pod
+
+=head1 NAME
+
+Common::Utils version 0.01 - A collection of modules which provide some
+useful functionality for common applications cases
+
+=head1 DESCRIPTION
+
+As mentioned above this is a collection containing modules which provide
+functionality which is often used in several application cases. Indeed,
+Perl offers many ways to get (complex) things done in just one line of
+code, but this one line could be "hard" to type. Therefore the provided
+routines should give an eased possibility to write code in perl. By now
+following modules are implemented, providing functionality in their own
+field of application:
+
+=over 4
+
+=item Common::Utils::Array
+
+Provides some useful functionality concerning arrays, such as C<index_of> a
+value.
+
+=item Common::Utils::File
+
+Implements often used routines, such as C<read_directory>, and extends the
+C<chomp>-built-in for example.
+
+=item Common::Utils::Hash
+
+Like C<Common::Utils::Array> this module provides some little helpers for
+handling hashes, like C<key_of>.
+
+=item Common::Utils::XML
+
+Some functionality which eases the processing of XML-documents.
+
+=back
+
+=head1 INSTALLATION
+
+To install this module type the following:
+
+   perl Makefile.PL
+   make
+   make test
+   make install
+
+=head1 COPYRIGHT AND LICENCE
+
+Copyright (C) 2012 by 8ware
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself, either Perl version 5.14.2 or,
+at your option, any later version of Perl 5 you may have available.
+
+=cut
