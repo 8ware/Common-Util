@@ -23,7 +23,7 @@ imported by default. Tags can have the following structure:
 
   MODULE-NAME[:EXPORT-TAG]
 
-oder
+or
 
   SUBROUTINE-NAME
 
