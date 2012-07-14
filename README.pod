@@ -2,7 +2,7 @@
 
 =head1 NAME
 
-Common::Utils version 0.01 - A collection of modules which provide some
+Common::Util version 0.01 - A collection of modules which provide some
 useful functionality for common applications cases
 
 =head1 DESCRIPTION
@@ -17,26 +17,25 @@ field of application:
 
 =over 4
 
-=item Common::Utils::Array
+=item Common::Util::Array
 
 Provides some useful functionality concerning arrays, such as C<index_of> a
 value.
 
-=item Common::Utils::File
+=item Common::Util::File
 
 Implements often used routines, such as C<read_directory>, and extends the
 C<chomp>-built-in for example.
 
-=item Common::Utils::Hash
+=item Common::Util::Hash
 
-Like C<Common::Utils::Array> this module provides some little helpers for
+Like C<Common::Util::Array> this module provides some little helpers for
 handling hashes, like C<key_of>.
 
-=item Common::Utils::XML
-
-Some functionality which eases the processing of XML-documents.
-
 =back
+
+The purpose of the C<Common::Util>-module is the eased access to all its
+submodules, preventing the user to C<use> all submodules individually.
 
 =head1 INSTALLATION
 
