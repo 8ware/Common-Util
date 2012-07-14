@@ -1,0 +1,8 @@
+Revision history for Perl extension Common::Util.
+
+0.01  Sun Jul  1 15:20:00 2012
+	- renamed Common::Utils to Common::Util
+
+0.01  Wed Jun 20 01:03:17 2012
+	- original version; created by h2xs 1.23
+

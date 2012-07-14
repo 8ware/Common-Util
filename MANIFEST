@@ -1,0 +1,12 @@
+Changes
+lib/Common/Util.pm
+lib/Common/Util/Array.pm
+lib/Common/Util/File.pm
+lib/Common/Util/Hash.pm
+Makefile.PL
+MANIFEST
+README.pod
+t/Common-Util.t
+t/Common-Util-Array.t
+t/Common-Util-File.t
+t/Common-Util-Hash.t
