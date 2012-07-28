@@ -32,6 +32,10 @@ C<chomp>-built-in for example.
 Like C<Common::Util::Array> this module provides some little helpers for
 handling hashes, like C<key_of>.
 
+=item Common::Util::Scalar
+
+Provides some scalar-related utilities, handling strings and numbers.
+
 =back
 
 The purpose of the C<Common::Util>-module is the eased access to all its
