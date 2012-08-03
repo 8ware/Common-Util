@@ -80,15 +80,15 @@ sub read_directory($;&) {
 	my $path = shift;
 	my $handler = shift;
 	my @content;
-	opendir DIRECTORY, $path or croak "Can't open directory $path: $!";
-	for (sort readdir DIRECTORY) {
+	opendir my $directory, $path or croak "Can't open directory $path: $!";
+	for (sort readdir $directory) {
 		next if /^\.{1,2}$/;
 		my $fullpath = "$path/$_";
 		my $push_flag = 1;
 		$push_flag = $handler->($fullpath) if defined $handler;
 		push @content, $fullpath if $push_flag;
 	}
-	closedir DIRECTORY or carp "Can't close directory $path: $!";
+	closedir $directory or carp "Can't close directory $path: $!";
 	return @content;
 }
 
@@ -107,18 +107,20 @@ sub chomp(;\[$@]) {
 	my $string = shift;
 	$string = \$_ unless defined $string;
 	unless (ref $string) {
-		carp "No reference given. Why?";
+#		carp "[chomp] No reference given. Why?";
 		$string = \$string;
 	} elsif (ref $string eq 'SCALAR') {
 		${$string} = $1 if ${$string} =~ /^(.+)$/;
 		local $/ = '/' if -d ${$string};
-		CORE::chomp(${$string});
+		return CORE::chomp(${$string});
 	} else {
+		my $removed_chars = 0;
 		for (@{$string}) {
 			$_ = $1 if /^(.+)$/;
 			local $/ = '/' if -d;
-			CORE::chomp;
+			$removed_chars += CORE::chomp;
 		}
+		return $removed_chars;
 	}
 }
 

@@ -58,8 +58,10 @@ sub import {
 		$export{$1} = \@{"$name\::EXPORT"};
 		for (@{"$name\::EXPORT_OK"}) {
 			if(defined $subroutines{$_}) {
+				# ambiguous definition of subroutine $_
 				carp "Subroutine $_ is already defined in "
-						."Common::Util::$subroutines{$_}.";
+						."Common::Util::$subroutines{$_} "
+						."(tried to add from Common::Util::$1).";
 			} else {
 				$subroutines{$_} = $1;
 			}
@@ -125,11 +127,14 @@ __END__
 developing purposes at beginning
 
 =item * ensure that subroutines specified in the export-arrays/-hashes
-are really defined
+are really defined (carp and next unless defined &{"$pkg\::$routine"})
 
 =item * support also export of scalars, arrays and hashes
 
 =item * enable selection of routine-package, e.g. Array::index_of
+
+=item * use C<Exporter->export_to_level> for export methods in package
+scope
 
 =back
 

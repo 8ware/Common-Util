@@ -56,6 +56,10 @@ sub insert_at(\@$$) {
 	}
 }
 
+sub copy_of(\@) {
+	return @{ $_[0] };
+}
+
 
 1;
 __END__

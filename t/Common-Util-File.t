@@ -34,12 +34,12 @@ BEGIN { use_ok('Common::Util::File', ':all') };
 
 =cut
 
-my $directory = "/media/";
+my $directory = "/etc/";
 my $string = "some test chars \n";
 my @strings = ($directory, $string);
 
 chomp $directory;
-is($directory, "/media");
+is($directory, "/etc");
 
 chomp $string;
 is($string, "some test chars ");
