@@ -4,43 +4,79 @@ use 5.014002;
 use strict;
 use warnings;
 
+=head1 NAME
+
+Common::Util::Array - A collection of useful subroutines operating on
+or with arrays
+
+=head1 SYNOPSIS
+
+  use Common::Util::Array ':all';
+
+  @array = qw(a b c d e f);
+
+  $index = index_of(@array, 'd');     # $index is 3
+
+  $value = crand(@array);             # $value is one of a ... f
+                                      # @array lost $value as element
+
+=head1 DESCRIPTION
+
+This module provide common array-related utilities. For more detailed
+information about the provided subroutines see the section B<METHODS>.
+
+=head2 EXPORT
+
+Exports nothing by default. All subroutines mentioned above can be
+imported individually or via the C<:all>-tag.
+
+=cut
+
 require Exporter;
 
 our @ISA = qw(Exporter);
 
-# Items to export into callers namespace by default. Note: do not export
-# names by default without a very good reason. Use EXPORT_OK instead.
-# Do not simply export all your public functions/methods/constants.
-
-# This allows declaration	use Common::Util::Array ':all';
-# If you do not need this, moving things directly into @EXPORT or @EXPORT_OK
-# will save memory.
 our %EXPORT_TAGS = ( 'all' => [ qw(
-	index_of
+	index_of crand
 ) ] );
 
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 
-#our @EXPORT = qw(
-#	
-#);
+#our @EXPORT = qw();
 
 our $VERSION = '0.01';
 
+#=head2 DEPENDENCIES
+#
+#=cut
 
 use Carp;
+
+=head2 METHODS
+
+=over 4
+
+=item B<index_of>
+
+Returns the first index of the specified element within the given array
+in scalar context. In list context all found indices are returned.
+
+=cut
 
 sub index_of(\@$) {
 	my @array = @{ (shift) };
 	my $value = shift;
+#	my $value = pop;
+#	my @array = @_;
 	return undef unless defined $value;
 	my @indexes = grep { $array[$_] eq $value } 0 .. $#array;
 	return wantarray ? @indexes : $indexes[0];
 }
 
-# border-cases
-# - negative index
-# - index greater then last index +1
+#=item B<insert_at>
+#
+#=cut
+
 sub insert_at(\@$$) {
 	my ($arrayref, $item, $index) = @_;
 	if ($index < 1) {
@@ -56,52 +92,49 @@ sub insert_at(\@$$) {
 	}
 }
 
+#=item B<copy_of>
+#
+#=cut
+
 sub copy_of(\@) {
 	return @{ $_[0] };
 }
 
+=item B<crand>
+
+The C<crand>-function accepts an array returns a random-chosen value
+which is removed from the array. If the array is empty C<undef> is will
+be returned. The common usage is as follows:
+
+  while ($value = crand(@array)) {
+      # do stuff with the random value
+      # e.g. push it to a random-array
+  }
+
+=cut
+
+srand;
+
+sub crand(\@) {
+	my $arrayref = shift;
+	return undef unless @{ $arrayref };
+	my $idx = int rand @{ $arrayref };
+	return splice @{ $arrayref }, $idx, 1;
+}
+
+=back
+
+=cut
+
 
 1;
 __END__
-# Below is stub documentation for your module. You'd better edit it!
 
-=head1 NAME
-
-Common::Util::Array - Perl extension for blah blah blah
-
-=head1 SYNOPSIS
-
-  use Common::Util::Array;
-  blah blah blah
-
-=head1 DESCRIPTION
-
-Stub documentation for Common::Util::Array, created by h2xs. It looks like the
-author of the extension was negligent enough to leave the stub
-unedited.
-
-Blah blah blah.
-
-=head2 EXPORT
-
-None by default.
-
-
-
-=head1 SEE ALSO
-
-Mention other useful documentation such as the documentation of
-related modules or operating system documentation (such as man pages
-in UNIX), or any relevant external documentation such as RFCs or
-standards.
-
-If you have a mailing list set up for your module, mention it here.
-
-If you have a web site set up for your module, mention it here.
+#=head1 SEE ALSO
 
 =head1 AUTHOR
 
-8ware, E<lt>andydefrank@(none)E<gt>
+8ware, E<lt>8wared@googlemail.comE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 

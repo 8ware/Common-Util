@@ -24,6 +24,8 @@ BEGIN { use_ok('Common::Util::Array', ':all') };
 
 my @array = qw(a b c d e f g h a);
 
+index_of(qw(a b c d), 'b');
+
 my $idx = index_of(@array, 'a');
 is($idx, 0);
 is($array[$idx], 'a');
@@ -41,4 +43,62 @@ is_deeply(\@no_idxs, []);
 
 my $undef_idx = index_of(@array, undef);
 is($undef_idx, undef);
+
+=head2 copy_of
+
+=cut
+
+#my @array_1 = qw(a b c d);
+#my @array_2 = @array_1;
+#shift @array_1;
+#is_deeply(\@array_1, \@array_2, "array are equal, even after shifting the first");
+
+#@array_2 = copy_of(@array_1);
+#is_deeply(\@array_2, \@array_1, "array 2 should be an exact copy of array 1");
+
+#shift @array_2;
+#isnt(@array_1, @array_2, "arrays should contain different amount of elements");
+
+=head2 crand
+
+=cut
+
+my(@values, @origin, $length, $count, @randValues);
+
+# testing with a single-value-array
+@values = (1);
+is(crand @values, 1, "[crand] returns the expected single value");
+is(@values, 0, "[crand] array is empty now");
+is(crand(@values), undef, "[crand] on passing an empty array, undef is returned");
+
+# prepare
+@origin = qw(01 02 06 04 08 07 11 3 15 05 21 18 09 26);
+@values = @origin;
+$length = @values;
+
+# testing a full run
+$count = 0;
+while(my $value = crand @values) {
+	$count++;
+	push @randValues, $value;
+}
+is($count, $length, "[crand] there were $count of expected $length runs");
+is(@values, 0, "[crand] array is empty again, because length is decreased each run by 1");
+is_deeply([sort @randValues], [sort @origin],
+	"[crand] origin- and random-array should be equals after sorting");
+
+
+=head2 insert_at
+
+=head3 BORDER CASES
+
+=over 4
+
+=item negative index
+
+=item index greater then last index +1
+
+=back
+
+=cut
 
