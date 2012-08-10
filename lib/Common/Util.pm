@@ -14,7 +14,9 @@ Common::Util - A collection of useful often used functionality
 
 =head1 DESCRIPTION
 
-This module provides a wrapped access to all its submodules.
+This module provides a wrapped access to all its submodules. See the
+section about B<EXPORT> to get detailed information about the wrapper
+functionality and its application.
 
 =head2 EXPORT
 
