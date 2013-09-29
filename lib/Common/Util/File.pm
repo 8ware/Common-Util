@@ -18,6 +18,11 @@ Common::Util::File - Perl extension for blah blah blah
 
   perl -MCommon::Util::File -e 'traverse(shift || ".", { print "$_[0]\n" if $_[0] =~ /(?:\..+)?\.sw[a-z]$/ })'
 
+  traverse { my $path = shift } '.';
+  traverse(sub {
+          my $path = shift;
+  }, '.');
+
 =head1 DESCRIPTION
 
 Stub documentation for Common::Util::File, created by h2xs. It looks like the
@@ -33,7 +38,7 @@ None by default.
 =cut
 
 our %EXPORT_TAGS = ( 'all' => [ qw(
-	traverse chomp read_directory
+	traverse chomp read_directory unslash
 ) ] );
 
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
@@ -42,7 +47,7 @@ our @EXPORT = qw(
 	
 );
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 
 use Carp;
@@ -51,25 +56,34 @@ use subs qw(traverse chomp read_directory);
 
 =head2 METHODS
 
+=cut
+
+#sub traverse(&$);
+#sub chomp(;\[$@]);
+#sub read_directory($;&);
+
 =over 4
 
 =item B<traverse>
 
 =cut
 
-sub traverse($\&) { # better use '&' to enable traverse(".", { do_something })
-	my $dir_path = shift;
-	chomp $dir_path;
-	return unless -d $dir_path;
+sub traverse(&$) {
 	my $handler = shift;
-	read_directory($dir_path, sub {
-			my $current_path = "$dir_path/$_";
+	my $dir_path = shift;
+	return unless -d $dir_path;
+	chomp $dir_path;
+	my @files;
+	unshift @files, read_directory($dir_path, sub {
+			my $current_path = shift;
 			if (-f $current_path) {
-				$handler->($current_path);
+				return $handler->($current_path);
 			} else {
-				traverse($current_path, $handler);
+				push @files, traverse($handler, $current_path);
+				return 0;
 			}
 	});
+	return @files;
 }
 
 =item B<read_directory>
@@ -103,7 +117,7 @@ directory.
 #of omitted arguments, this method will NOT take the C<$_>-variable. So be
 #careful with the import of this method!
 
-sub chomp(;\[$@]) {
+sub chomp(;\[$@]) { # may rename to unslash
 	my $string = shift;
 	$string = \$_ unless defined $string;
 	unless (ref $string) {
@@ -122,6 +136,13 @@ sub chomp(;\[$@]) {
 		}
 		return $removed_chars;
 	}
+}
+
+sub unslash(\$) {
+	my $pathref = shift;
+	return 0 unless -d ${$pathref};
+	local $/ = '/';
+	CORE::chomp(${$pathref});
 }
 
 =back

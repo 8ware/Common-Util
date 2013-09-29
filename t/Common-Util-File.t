@@ -16,6 +16,11 @@ BEGIN { use_ok('Common::Util::File', ':all') };
 # Insert your test code below, the Test::More module is use()ed here so read
 # its man page ( perldoc Test::More ) for help writing this test script.
 
+use File::Basename;
+use Cwd 'abs_path';
+
+my $t_dir = abs_path dirname($0);
+
 =head1 TEST CASES
 
 =over 4
@@ -29,8 +34,6 @@ BEGIN { use_ok('Common::Util::File', ':all') };
 =item * remove specified char of usual string
 
 =item * remove char from whole array
-
-=back
 
 =cut
 
@@ -55,4 +58,25 @@ is($_, 'test');
 
 chomp @strings;
 is_deeply(\@strings, [$directory, $string]);
+
+=item B<traverse>
+
+=item * test usage: C<traverse {} ''> and C<traverse(sub {}, '')>
+
+=cut
+
+my @files;
+
+traverse { print shift, "\n" } "$t_dir/res";
+print '=' x 20, "\n";
+@files = traverse { print; print "\n"; 1 } "$t_dir/res";
+
+print scalar @files, "\n";
+local $" = "\n";
+print "@files\n";
+
+
+=back
+
+=cut
 
