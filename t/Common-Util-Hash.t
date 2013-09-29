@@ -10,7 +10,7 @@ use warnings;
 
 use feature 'say';
 
-use Test::More tests => 10;
+use Test::More tests => 2;
 BEGIN { use_ok('Common::Util::Hash', ':all') };
 
 #########################

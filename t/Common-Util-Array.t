@@ -10,7 +10,7 @@ use warnings;
 
 use feature 'say';
 
-use Test::More tests => 10;
+use Test::More tests => 16;
 BEGIN { use_ok('Common::Util::Array', ':all') };
 
 #########################
@@ -24,7 +24,7 @@ BEGIN { use_ok('Common::Util::Array', ':all') };
 
 my @array = qw(a b c d e f g h a);
 
-index_of(qw(a b c d), 'b');
+index_of(@array, 'b');
 
 my $idx = index_of(@array, 'a');
 is($idx, 0);
